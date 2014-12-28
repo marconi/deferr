@@ -13,7 +13,7 @@ type FakeTodoRepo struct {
 }
 
 func (ftr *FakeTodoRepo) List() []*deferr.Todo {
-	return nil
+	return []*deferr.Todo{}
 }
 
 func (ftr *FakeTodoRepo) Push(t *deferr.Todo) error {
@@ -32,7 +32,7 @@ func TestTodoManagerSpec(t *testing.T) {
 	manager := deferr.NewTodoManager(&FakeTodoRepo{})
 
 	Convey("testing todo manager", t, func() {
-		Convey("should be able to push item", func() {
+		Convey("should be able to set slug on pushed item", func() {
 			t := &deferr.Todo{Name: "Wash clothes"}
 			err := manager.Push(t)
 			So(err, ShouldBeNil)
