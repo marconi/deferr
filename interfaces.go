@@ -16,21 +16,21 @@ import (
 
 type TodoAdapter interface {
 	List() []*Todo
-	Save(t *Todo) error
+	Push(t *Todo) error
 	Pop() (*Todo, error)
 	Defer() error
 }
 
 type TodoRepo struct {
-	store Storage
+	Store Storage
 }
 
 func NewTodoRepo(store Storage) *TodoRepo {
-	return &TodoRepo{store: store}
+	return &TodoRepo{Store: store}
 }
 
 func (tr *TodoRepo) List() []*Todo {
-	items := tr.store.Query()
+	items := tr.Store.Query()
 	todos := make([]*Todo, len(items))
 	for i, item := range items {
 		todos[i] = item.(*Todo)
@@ -38,12 +38,12 @@ func (tr *TodoRepo) List() []*Todo {
 	return todos
 }
 
-func (tr *TodoRepo) Save(t *Todo) error {
-	return tr.store.Save(t)
+func (tr *TodoRepo) Push(t *Todo) error {
+	return tr.Store.Push(t)
 }
 
 func (tr *TodoRepo) Pop() (*Todo, error) {
-	t, err := tr.store.Pop()
+	t, err := tr.Store.Pop()
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (tr *TodoRepo) Pop() (*Todo, error) {
 }
 
 func (tr *TodoRepo) Defer() error {
-	return tr.store.Defer()
+	return tr.Store.Defer()
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ func (wh *WebHandler) List(w http.ResponseWriter, r *http.Request, _ httprouter.
 	fmt.Fprint(w, string(b))
 }
 
-func (wh *WebHandler) Add(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (wh *WebHandler) Push(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 	var t Todo
 	var result interface{}
@@ -81,7 +81,7 @@ func (wh *WebHandler) Add(w http.ResponseWriter, r *http.Request, _ httprouter.P
 	if err := json.Unmarshal(body, &t); err != nil {
 		result = map[string]string{"message": "Invalid payload."}
 	} else {
-		wh.todoManager.Add(&t)
+		wh.todoManager.Push(&t)
 		result = t
 	}
 	b, _ := json.Marshal(result)

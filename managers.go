@@ -8,7 +8,7 @@ import (
 
 type TodoInteractor interface {
 	List() []*Todo
-	Add(t *Todo) error
+	Push(t *Todo) error
 	Pop() (*Todo, error)
 	Defer() error
 }
@@ -25,9 +25,9 @@ func (tm *TodoManager) List() []*Todo {
 	return tm.todoRepo.List()
 }
 
-func (tm *TodoManager) Add(t *Todo) error {
+func (tm *TodoManager) Push(t *Todo) error {
 	t.Slug = tm.getSlug()
-	return tm.todoRepo.Save(t)
+	return tm.todoRepo.Push(t)
 }
 
 // Removes the first item on the list
