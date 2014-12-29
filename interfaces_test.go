@@ -11,8 +11,7 @@ import (
 	"github.com/marconi/deferr"
 )
 
-type FakeTodoManager struct {
-}
+type FakeTodoManager struct{}
 
 func (ftm *FakeTodoManager) List() []*deferr.Todo {
 	return []*deferr.Todo{

@@ -8,9 +8,7 @@ import (
 	"github.com/marconi/deferr"
 )
 
-type FakeTodoRepo struct {
-	deferr.TodoRepo
-}
+type FakeTodoRepo struct{}
 
 func (ftr *FakeTodoRepo) List() []*deferr.Todo {
 	return []*deferr.Todo{}
