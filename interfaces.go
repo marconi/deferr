@@ -14,10 +14,10 @@ import (
 // Repositories
 ////////////////////////////////////////////////////////////////////////////
 
-type TodoAdapter interface {
-	List() []*Todo
-	Push(t *Todo) error
-	Pop() (*Todo, error)
+type Storage interface {
+	Query() []interface{}
+	Push(i interface{}) error
+	Pop() (interface{}, error)
 	Defer() error
 }
 
@@ -57,6 +57,13 @@ func (tr *TodoRepo) Defer() error {
 ////////////////////////////////////////////////////////////////////////////
 // Web handlers
 ////////////////////////////////////////////////////////////////////////////
+
+type TodoInteractor interface {
+	List() []*Todo
+	Push(t *Todo) error
+	Pop() (*Todo, error)
+	Defer() error
+}
 
 type WebHandler struct {
 	todoManager TodoInteractor

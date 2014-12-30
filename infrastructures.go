@@ -4,13 +4,6 @@ import (
 	"fmt"
 )
 
-type Storage interface {
-	Query() []interface{}
-	Push(i interface{}) error
-	Pop() (interface{}, error)
-	Defer() error
-}
-
 type StoreHandler struct {
 	Items []interface{}
 }

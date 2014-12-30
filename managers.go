@@ -6,13 +6,6 @@ import (
 	"github.com/nu7hatch/gouuid"
 )
 
-type TodoInteractor interface {
-	List() []*Todo
-	Push(t *Todo) error
-	Pop() (*Todo, error)
-	Defer() error
-}
-
 type TodoManager struct {
 	todoRepo TodoAdapter
 }
